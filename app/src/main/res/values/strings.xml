@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Venom Shop</string>
+
+    <string name="stone_island">Stone Island</string>
+    <string name="stone_island_1">Куртка-дождевик Stone Island Premium Project</string>
+    <string name="stone_island_1_desc">Данная куртка спасёт вас от холода, дождя, урагана, бури и торнадо.
+    Позволить себе такую смогут только богачи, но она того стоит. Это строжайший оригинал!</string>
+
+    <string name="cp_company">CP Company</string>
+    <string name="cp_company_1">Ветровка CP Company Гуманоид</string>
+    <string name="cp_company_1_desc">Эта ветровка - настоящее нечто! Она выдержит любой ливень, а линзы помогут вам от солнца и придадут вам классный вид!</string>
+
+    <string name="adidas">Adidas</string>
+    <string name="adidas_1">Кроссовки Adidas Jamaica</string>
+    <string name="adidas_1_desc">Ямайки привезены из Ямайки. Кроссы супер, покупаем.</string>
+    <string name="adidas_2">Олимпийка Adidas (раритет)</string>
+    <string name="adidas_2_desc">Данный олимпос был снят с Вовы Адидаса.</string>
+    <string name="adidas_legend">Подкрадули Adidas Legend</string>
+    <string name="adidas_legend_desc">Adidas Legend - безусловно флагман в мире обуви! Доставка данной пары происходит на Роллс-Ройсе, окружённом шестью Геликами.</string>
+</resources>
