@@ -2,6 +2,7 @@ package com.example.venomshop.data
 
 import com.example.venomshop.R
 import com.example.venomshop.model.Clothes
+import com.example.venomshop.model.Info
 
 object DataSource {
     val clothes = listOf<Clothes>(
@@ -44,6 +45,28 @@ object DataSource {
             price = "999.999",
             grade = 5.0,
             image = R.drawable.adidas_legend
+        )
+    )
+    val info = listOf<Info>(
+        Info(
+            title = R.string.info_title_1,
+            body = R.string.info_body_1
+        ),
+        Info(
+            title = R.string.info_title_2,
+            body = R.string.info_body_2
+        ),
+        Info(
+            title = R.string.info_title_3,
+            body = R.string.info_body_3
+        ),
+        Info(
+            title = R.string.info_title_4,
+            body = R.string.info_body_4
+        ),
+        Info(
+            title = R.string.info_title_5,
+            body = R.string.info_body_5
         )
     )
 }

@@ -21,11 +21,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -43,88 +53,95 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.venomshop.data.DataSource
 import com.example.venomshop.model.Clothes
 
 @Composable
 fun ClothingScreen(
     clothing: Clothes,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    Scaffold(
+        topBar = { TopBar(navController = navController ) }
     ) {
-        Image(
-            painter = painterResource(id = clothing.image),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .shadow(elevation = 12.dp)
-        )
-        Text(
-            text = "${clothing.price} ₽",
-            fontWeight = FontWeight.Bold,
-            fontSize = 32.sp,
-            textAlign = TextAlign.Start,
-            modifier = Modifier.padding(
-                start = 18.dp,
-                top = 8.dp
-            )
-        )
-        Text(
-            text = stringResource(id = clothing.title),
-            fontWeight = FontWeight.Normal,
-            style = MaterialTheme.typography.displaySmall,
-            textAlign = TextAlign.Start,
-            modifier = Modifier.padding(start = 18.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        // Прописать логику
-        Row(
+        Column(
             modifier = modifier
-                .padding(start = 18.dp)
-                .background(
-                    color = when(clothing.grade) {
-                        in(3.9..5.0) -> Color(46, 204, 113)
-                        in(2.4..3.8) -> Color(241, 196, 15)
-                        else -> Color(231, 76, 60)
-                    },
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .padding(start = 4.dp, end = 24.dp)
+                .padding(it)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = clothing.grade.toString(),
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                color = Color.White,
+            Image(
+                painter = painterResource(id = clothing.image),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .shadow(elevation = 12.dp)
+            )
+            Text(
+                text = "${clothing.price} ₽",
+                fontWeight = FontWeight.Bold,
+                fontSize = 32.sp,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(
+                    start = 18.dp,
+                    top = 8.dp
+                )
+            )
+            Text(
+                text = stringResource(id = clothing.title),
+                fontWeight = FontWeight.Normal,
+                style = MaterialTheme.typography.displaySmall,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(start = 18.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            // Прописать логику
+            Row(
+                modifier = modifier
                     .padding(start = 18.dp)
+                    .background(
+                        color = when (clothing.grade) {
+                            in (3.9..5.0) -> Color(46, 204, 113)
+                            in (2.4..3.8) -> Color(241, 196, 15)
+                            else -> Color(231, 76, 60)
+                        },
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .padding(start = 4.dp, end = 24.dp)
+            ) {
+                Text(
+                    text = clothing.grade.toString(),
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(start = 18.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(28.dp))
+            Text(
+                text = "Описание",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(start = 18.dp)
+            )
+            Text(
+                text = stringResource(clothing.description),
+                style = MaterialTheme.typography.bodyLarge,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(18.dp)
+            )
+            BuyButton(
+                modifier = modifier
+                    .size(height = 100.dp, width = 200.dp)
+                    .padding(18.dp)
             )
         }
-        Spacer(modifier = Modifier.height(28.dp))
-        Text(
-            text = "Описание",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(start = 18.dp)
-        )
-        Text(
-            text = stringResource(clothing.description),
-            style = MaterialTheme.typography.bodyLarge,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(18.dp)
-        )
-        BuyButton(
-            modifier = modifier
-                .size(height = 100.dp, width = 200.dp)
-                .padding(18.dp)
-        )
     }
 }
 
@@ -132,8 +149,9 @@ fun ClothingScreen(
 fun BuyButton(
     modifier: Modifier = Modifier
 ) {
+    var openDialog by remember { mutableStateOf(false) }
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { openDialog = true },
         colors = ButtonDefaults.buttonColors(containerColor = Color(46, 134, 193)),
         shape = RoundedCornerShape(10.dp),
         elevation = ButtonDefaults.buttonElevation(defaultElevation = 12.dp),
@@ -145,16 +163,39 @@ fun BuyButton(
             fontSize = 18.sp
         )
     }
+    when(openDialog) {
+        true -> ShopAlertDialog(
+            onDismissRequest = { openDialog = false },
+        )
+        else -> {}
+    }
 }
 
-@Preview (showSystemUi = true)
 @Composable
-fun ClothingPreview() {
-    ClothingScreen(DataSource.clothes[2])
+fun ShopAlertDialog(
+    onDismissRequest: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(
+                    text = "Закрыть",
+                    color = Color.Black
+                )
+            }
+        },
+        title = {
+            Text(text = "Покупка недоступна")
+        },
+        text = {
+            Text(text = "Данный товар купить нельзя. Извиняемся за предоставленные неудобства.")
+        }
+    )
+
 }
 
 @Preview
 @Composable
 fun ButtonPreview() {
-    BuyButton()
 }

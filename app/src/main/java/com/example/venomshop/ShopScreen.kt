@@ -1,6 +1,7 @@
 package com.example.venomshop
 
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,14 +18,31 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.sharp.Close
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +59,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -51,53 +70,179 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.venomshop.data.DataSource
 import com.example.venomshop.data.DataSource.clothes
+import com.example.venomshop.data.DataSource.info
+import com.example.venomshop.data.Screen
 import com.example.venomshop.model.Clothes
 
-enum class VenomShopScreen {
-    Start,
-    Clothing
+enum class VenomShopScreen(
+    val icon: ImageVector,
+    @StringRes val title: Int
+) {
+    Start(
+        icon = Icons.Filled.ShoppingCart,
+        title = R.string.goods
+    ),
+    Clothing(
+        icon = Icons.Filled.Star,
+        title = R.string.goods
+    ),
+    Info(
+        icon = Icons.Filled.Info,
+        title = R.string.Help
+    ),
+    Profile(
+        icon = Icons.Filled.AccountCircle,
+        title = R.string.Profile
+    )
 }
+
+val items = listOf(
+    VenomShopScreen.Start,
+    VenomShopScreen.Info,
+    VenomShopScreen.Profile
+)
 
 @Composable
 fun ShopScreen(
     shopViewModel: ShopViewModel = viewModel(),
-    navController: NavHostController = rememberNavController(),
 ) {
-    val shopUiState by shopViewModel.uiState.collectAsState()
-    NavHost(
-        navController = navController,
-        startDestination = VenomShopScreen.Start.name
+    val navController = rememberNavController()
+    val selectedItem by remember { mutableIntStateOf(0) }
+        val shopUiState by shopViewModel.uiState.collectAsState()
+        NavHost(
+            navController = navController,
+            startDestination = VenomShopScreen.Start.name,
         ) {
-        composable(route = VenomShopScreen.Start.name) {
-            ShopColumn(onClick = {
-                shopViewModel.addClothing(it)
-                navController.navigate(route = VenomShopScreen.Clothing.name)
-            })
+            composable(route = VenomShopScreen.Start.name) {
+                ShopColumn(
+                    onClick = { clothing ->
+                        shopViewModel.addClothing(clothing)
+                    navController.navigate(route = VenomShopScreen.Clothing.name)
+                    },
+                    selectedItem = selectedItem,
+                    navController = navController
+                )
+            }
+            composable(route = VenomShopScreen.Clothing.name) {
+                ClothingScreen(shopUiState.clothing, navController)
+            }
+            composable(route = VenomShopScreen.Info.name) {
+                InfoScreen(
+                    navController = navController,
+                    selectedItem = selectedItem
+                )
+            }
+            composable(route = VenomShopScreen.Profile.name) {
+
+            }
         }
-        composable(route = VenomShopScreen.Clothing.name) {
-            ClothingScreen(shopUiState.clothing)
+}
+@Composable
+fun NavBottomBar(
+    navController: NavController,
+    selectedItem: Int,
+) {
+    var selIt = selectedItem
+    BottomNavigation(
+        backgroundColor = Color.White,
+        elevation = 16.dp
+    ) {
+        items.forEachIndexed { index, screen ->
+            BottomNavigationItem(
+                icon = {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(
+                                color = if (navController.currentDestination?.route == screen.name)
+                                    Color(46, 134, 193, 75)
+                                else
+                                    Color.White
+                            )
+                            .size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = screen.icon,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                },
+                label = {
+                        Text(text = stringResource(id = screen.title))
+                },
+                selected = selIt == index,
+
+                onClick = {
+                    selIt = index
+                    when(index){
+                        0 -> navController.navigate(VenomShopScreen.Start.name)
+                        1 -> navController.navigate(VenomShopScreen.Info.name)
+                        2 -> navController.navigate(VenomShopScreen.Profile.name)
+                    }
+                }
+
+            )
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(navController: NavController) {
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = "Venom Shop",
+                fontWeight = FontWeight.Light
+                )
+        },
+        navigationIcon = {
+            if (navController.currentDestination?.route.toString() == VenomShopScreen.Clothing.name) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = null)
+                }
+            }
+        },
+        modifier = Modifier.shadow(12.dp)
+    )
+}
+
 @Composable
 fun ShopColumn(
-    onClick: (Clothes) -> Unit
+    onClick: (Clothes) -> Unit,
+    selectedItem: Int,
+    navController: NavController
 ) {
-    Surface(
-        modifier = Modifier.padding(horizontal = 16.dp)
-    ) {
+    Scaffold(
+        topBar = { TopBar(navController) },
+        bottomBar = {
+            NavBottomBar(
+                selectedItem = selectedItem,
+                navController = navController
+            )
+        }
+    ) {padding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(18.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            //modifier = Modifier.background(Color(104, 136, 193, 90))
+            modifier = Modifier
+                .padding(padding)
+                .padding(
+                    horizontal = 16.dp
+                )
         ) {
             items(clothes) {
                 ClothesCard(
@@ -115,10 +260,12 @@ fun ClothesCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        elevation = CardDefaults.cardElevation(12.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
         shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = modifier
             .clickable { onClick() }
+            .padding(vertical = 8.dp)
     ) {
         Box(
 //            modifier = Modifier.background(brush = Brush.horizontalGradient(
@@ -142,7 +289,7 @@ fun ClothesCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .size(135.dp)
-                        //.shadow(6.dp)
+                        .shadow(6.dp)
                 )
                 Text(
                     text = stringResource(id = clothes.brand),
@@ -179,7 +326,8 @@ fun ClothesCard(
     }
 }
 
-@Preview (showSystemUi = false)
+@Preview (showSystemUi = true)
 @Composable
 fun ShopPreview() {
+    ShopScreen()
 }
