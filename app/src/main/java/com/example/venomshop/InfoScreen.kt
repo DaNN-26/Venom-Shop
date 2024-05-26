@@ -2,6 +2,8 @@ package com.example.venomshop
 
 import android.widget.Space
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -27,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
@@ -80,29 +83,32 @@ fun InfoCard(
         elevation = 8.dp,
         modifier = modifier
             .fillMaxWidth()
+            .clickable { isInfoOpened = !isInfoOpened }
     )
     {
         Column(
             modifier = Modifier.animateContentSize()
         ) {
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = stringResource(id = info.title),
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 26.sp,
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(3f)
                         .padding(12.dp)
                 )
-                IconButton(onClick = { isInfoOpened = !isInfoOpened }) {
                     Icon(
                         imageVector = if (!isInfoOpened)
                             Icons.Filled.KeyboardArrowDown
                         else
                             Icons.Filled.KeyboardArrowUp,
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier.weight(0.5f)
                     )
-                }
             }
             if (isInfoOpened) {
                 Text(

@@ -9,5 +9,5 @@ data class Clothes(
     @StringRes val description: Int,
     val price: String,
     val grade: Double,
-    @DrawableRes val image: Int
+    val images: List<Int>
 )

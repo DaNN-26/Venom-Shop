@@ -65,6 +65,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -81,7 +82,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.venomshop.data.DataSource
 import com.example.venomshop.data.DataSource.clothes
 import com.example.venomshop.data.DataSource.info
-import com.example.venomshop.data.Screen
 import com.example.venomshop.model.Clothes
 
 enum class VenomShopScreen(
@@ -143,7 +143,10 @@ fun ShopScreen(
                 )
             }
             composable(route = VenomShopScreen.Profile.name) {
-
+                ProfileScreen(
+                    navController = navController,
+                    selectedItem = selectedItem
+                )
             }
         }
 }
@@ -160,24 +163,15 @@ fun NavBottomBar(
         items.forEachIndexed { index, screen ->
             BottomNavigationItem(
                 icon = {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(
-                                color = if (navController.currentDestination?.route == screen.name)
-                                    Color(46, 134, 193, 75)
-                                else
-                                    Color.White
-                            )
-                            .size(36.dp)
-                    ) {
-                        Icon(
-                            imageVector = screen.icon,
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp)
+                    Icon(
+                        imageVector = screen.icon,
+                        contentDescription = null,
+                        tint = if (navController.currentDestination?.route == screen.name)
+                            Color(46, 134, 193)
+                        else
+                            Color.Black,
+                        modifier = Modifier.size(24.dp)
                         )
-                    }
                 },
                 label = {
                         Text(text = stringResource(id = screen.title))
@@ -204,12 +198,12 @@ fun TopBar(navController: NavController) {
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = "Venom Shop",
+                text = stringResource(id = R.string.app_name),
                 fontWeight = FontWeight.Light
                 )
         },
         navigationIcon = {
-            if (navController.currentDestination?.route.toString() == VenomShopScreen.Clothing.name) {
+            if (navController.currentDestination?.route == VenomShopScreen.Clothing.name) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = null)
                 }
@@ -267,35 +261,26 @@ fun ClothesCard(
             .clickable { onClick() }
             .padding(vertical = 8.dp)
     ) {
-        Box(
-//            modifier = Modifier.background(brush = Brush.horizontalGradient(
-//                colors = listOf(
-//                    Color.White,
-//                    Color(184, 226, 255, 240),
-//                )
-//            ),
-//                alpha = 0.9f
-//            )
-        ) {
+        Box() {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .size(height = 200.dp, width = 200.dp)
             ) {
                 Image(
-                    painter = painterResource(id = clothes.image),
+                    painter = painterResource(id = clothes.images[0]),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
                         .size(135.dp)
-                        .shadow(6.dp)
+                        .shadow(2.dp)
                 )
                 Text(
                     text = stringResource(id = clothes.brand),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
-                    fontSize = 20.sp
+                    fontSize = 16.sp
                 )
                 Text(
                     text = "${clothes.price} ₽",

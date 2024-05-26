@@ -72,15 +72,11 @@ fun ClothingScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            Image(
-                painter = painterResource(id = clothing.image),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .shadow(elevation = 12.dp)
-            )
+            Pager(
+                painterList = clothing.images,
+                modifier = Modifier.aspectRatio(1f)
+                )
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = "${clothing.price} ₽",
                 fontWeight = FontWeight.Bold,
@@ -92,6 +88,13 @@ fun ClothingScreen(
                 )
             )
             Text(
+                text = stringResource(id = clothing.brand),
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.displaySmall,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(start = 18.dp)
+            )
+            Text(
                 text = stringResource(id = clothing.title),
                 fontWeight = FontWeight.Normal,
                 style = MaterialTheme.typography.displaySmall,
@@ -99,14 +102,13 @@ fun ClothingScreen(
                 modifier = Modifier.padding(start = 18.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            // Прописать логику
             Row(
                 modifier = modifier
                     .padding(start = 18.dp)
                     .background(
                         color = when (clothing.grade) {
                             in (3.9..5.0) -> Color(46, 204, 113)
-                            in (2.4..3.8) -> Color(241, 196, 15)
+                            in (2.5..3.8) -> Color(241, 196, 15)
                             else -> Color(231, 76, 60)
                         },
                         shape = RoundedCornerShape(8.dp)
@@ -125,7 +127,7 @@ fun ClothingScreen(
             }
             Spacer(modifier = Modifier.height(28.dp))
             Text(
-                text = "Описание",
+                text = stringResource(R.string.clothing_description),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(start = 18.dp)
@@ -138,6 +140,7 @@ fun ClothingScreen(
             )
             BuyButton(
                 modifier = modifier
+                    .fillMaxWidth()
                     .size(height = 100.dp, width = 200.dp)
                     .padding(18.dp)
             )
@@ -154,11 +157,11 @@ fun BuyButton(
         onClick = { openDialog = true },
         colors = ButtonDefaults.buttonColors(containerColor = Color(46, 134, 193)),
         shape = RoundedCornerShape(10.dp),
-        elevation = ButtonDefaults.buttonElevation(defaultElevation = 12.dp),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp),
         modifier = modifier
     ) {
         Text(
-            "Купить",
+            stringResource(R.string.clothing_text_buy),
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp
         )
@@ -167,7 +170,7 @@ fun BuyButton(
         true -> ShopAlertDialog(
             onDismissRequest = { openDialog = false },
         )
-        else -> {}
+        else -> Unit
     }
 }
 
@@ -180,16 +183,16 @@ fun ShopAlertDialog(
         confirmButton = {
             TextButton(onClick = onDismissRequest) {
                 Text(
-                    text = "Закрыть",
+                    text = stringResource(R.string.close_button),
                     color = Color.Black
                 )
             }
         },
         title = {
-            Text(text = "Покупка недоступна")
+            Text(text = stringResource(R.string.buy_button_unavaible))
         },
         text = {
-            Text(text = "Данный товар купить нельзя. Извиняемся за предоставленные неудобства.")
+            Text(text = stringResource(R.string.buy_button_unavaible_body))
         }
     )
 

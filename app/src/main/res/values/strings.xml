@@ -2,21 +2,73 @@
     <string name="app_name">Venom Shop</string>
 
     <string name="stone_island">Stone Island</string>
-    <string name="stone_island_1">Куртка-дождевик Stone Island Premium Project</string>
-    <string name="stone_island_1_desc">Данная куртка спасёт вас от холода, дождя, урагана, бури и торнадо.
-    Позволить себе такую смогут только богачи, но она того стоит. Это строжайший оригинал!</string>
+    <string name="stone_island_1">Лёгкая куртка</string>
+    <string name="stone_island_1_desc">ЛЕГКАЯ КУРТКА С КАПЮШОНОМ, ОКРАШЕННАЯ МИКРОПРЯЖЕЙ PRIMALOFT®-TC_PACKABLE: легкая куртка с капюшоном из каландрированной ткани стоимостью 10 денье, изготовленная из нейлоновых микрофиламентов с рипстопом, которые подвергаются невидимой приятной на ощупь упрочняющей отделке. Подкладка изделия покрыта тонким слоем PrimaLoft®-TC, эксклюзивной смеси изоляционных волокон, на 70% переработанных, разработанных STONE ISLAND для того, чтобы выдерживать высокие температуры при крашении одежды без ущерба для лофта или изоляционных свойств. Добавление специального вещества, не содержащего PFC, в формулу красителя делает изделие устойчивым к выпадению. Описание взято с официального сайта бренда Stone Island.</string>
 
-    <string name="cp_company">CP Company</string>
-    <string name="cp_company_1">Ветровка CP Company Гуманоид</string>
-    <string name="cp_company_1_desc">Эта ветровка - настоящее нечто! Она выдержит любой ливень, а линзы помогут вам от солнца и придадут вам классный вид!</string>
+    <string name="cp_company">C.P. Company</string>
+    <string name="cp_company_1">Мужская толстовка Diagonal Raised Fleece Hoodie Goggle</string>
+    <string name="cp_company_1_desc">- Материал: 100% хлопок
+    \n- Страна-производитель: Мьянма
+    \n- Плотная хлопковая ткань
+    \n- Свободный крой
+    \n- Прямой силуэт
+    \n- Монохромная расцветка
+    \n- Регулируемый капюшон с встроенными фирменными линзами
+    \n- Два фронтальных кармана на молнии
+    \n- Эластичные подол и манжеты</string>
+    <string name="cp_company_2">Шапка Cotton Goggle Ribbed</string>
+    <string name="cp_company_2_desc">- Материал: 100% хлопок
+    \n- Страна-производитель: Италия
+    \n- Оригинальный дизайн
+    \n- Ребристая фактура
+    \n- Отворот по периметру
+    \n- Встроенные фирменные линзы Goggle
+    \n- Контрастный брендинг</string>
+    <string name="cp_company_3">Мужская футболка 30/1 Jersey Relaxed Logo</string>
+    <string name="cp_company_3_desc">- Материал: 100% хлопок
+    \n- Страна-производитель: Молдова
+    \n- Плотная хлопковая ткань
+    \n- Классический крой
+    \n- Прямой силуэт
+    \n- Объемный контрастный брендинг</string>
 
     <string name="adidas">Adidas</string>
-    <string name="adidas_1">Кроссовки Adidas Jamaica</string>
-    <string name="adidas_1_desc">Ямайки привезены из Ямайки. Кроссы супер, покупаем.</string>
-    <string name="adidas_2">Олимпийка Adidas (раритет)</string>
-    <string name="adidas_2_desc">Данный олимпос был снят с Вовы Адидаса.</string>
-    <string name="adidas_legend">Подкрадули Adidas Legend</string>
-    <string name="adidas_legend_desc">Adidas Legend - безусловно флагман в мире обуви! Доставка данной пары происходит на Роллс-Ройсе, окружённом шестью Геликами.</string>
+    <string name="adidas_1">Кроссовки Jamaica</string>
+    <string name="adidas_1_desc">- Материал: Верх - натуральная замша, натуральная кожа; Подкладка - текстиль; Низ - резина
+    \n- Страна-производитель: Вьетнам
+    \n- Переиздание легендарной модели
+    \n- Классическая расцветка
+    \n- Золотистая надпись с названием модели сбоку
+    \n- Логотип бренда на язычке
+    \n- Удобная износостойкая подошва</string>
+    <string name="adidas_2">Кроссовки Micropacer OG</string>
+    <string name="adidas_2_desc">- Материал: Верх - текстиль; Подкладка - текстиль; Низ - резина
+    \n- Страна-производитель: Вьетнам
+    \n- Cочетание текстиля с износостойкими вставками
+    \n- Классический силуэт
+    \n- Ограниченное издание
+    \n- Встроенный микропроцессор со счетчиком калорий, шагомером и секундомером
+    \n- Кармашек на язычке
+    \n- Оригинальная накладка на шнуровку</string>
+
+    <string name="weekend_offender">Weekend Offender</string>
+    <string name="weekend_offender_1">Мужская рубашка Monuriki Camo</string>
+    <string name="weekend_offender_1_desc">- Материал: 100% хлопок
+    \n- Страна-производитель: Китай</string>
+
+    <string name="alpha">Alpha Industries</string>
+    <string name="alpha_1">Мужская куртка бомбер CWU 45/P Flight</string>
+    <string name="alpha_1_desc">- Материал: Верх - 100% нейлон; Подкладка - 100% нейлон; Наполнитель - 100% полиэстер
+    \n- Страна-производитель: Китай
+    \n- Водостойкое DWR-покрытие
+    \n- Отложной воротник
+    \n- Застежка на молнию
+    \n- 2 боковых кармана
+    \n- Карман на рукаве
+    \n- Внутренний карман
+    \n- Съемная лента
+    \n- Эластичные подол и манжеты
+    \n- Фирменные патчи</string>
 
     <string name="info_title_1">Доставка</string>
     <string name="info_body_1">Все товары магазина можно купить только с доставкой.
@@ -46,4 +98,15 @@
     <string name="goods">Товары</string>
     <string name="Help">Помощь</string>
     <string name="Profile">Профиль</string>
+
+    <string name="profile_unauthorized">Вы не вошли в аккаунт.</string>
+    <string name="profile_enter">Уже имеете аккаунт?\nВойти</string>
+    <string name="profile_register">Регистрация</string>
+    <string name="profile_error_body">В данный момент данная функция невозможна. Извините за предоставленные неудобства.</string>
+    <string name="profile_error_title">Что-то пошло не так...</string>
+    <string name="clothing_text_buy">Купить</string>
+    <string name="close_button">Закрыть</string>
+    <string name="buy_button_unavaible">Покупка недоступна</string>
+    <string name="buy_button_unavaible_body">Данный товар купить нельзя. Извиняемся за предоставленные неудобства.</string>
+    <string name="clothing_description">Описание</string>
 </resources>
